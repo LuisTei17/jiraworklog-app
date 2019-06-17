@@ -16,10 +16,11 @@ class Dashboard extends Component {
         this.state = {
             logged: false,
             projects: [],
-            issues: []
+            component: ''
         }
 
         this.fetchProjects = this.fetchProjects.bind(this);
+        this.getIssues = this.getIssues.bind(this);
     }
 
     async componentWillMount () {
@@ -35,12 +36,19 @@ class Dashboard extends Component {
         this.setState({projects: projects});
     }
 
+    async getIssues(projectId) {
+        const issues = await this.jiraService.getIssues(projectId),
+            isssuesComponent = <Issues issues={issues} />;
+
+        this.setState({component: isssuesComponent})
+    }
+
     render () {
         return (
             <div>
                 <Typography className="title" gutterBottom variant="h2" component="h2">Projetos</Typography>
-                {this.state.projects.map((project, projectIndex) =>   
-                    <Card className="project" key={projectIndex}>
+                {this.state.projects.map(project =>   
+                    <Card className="project" id={project} key={project.projectId} onClick={() => this.getIssues(project.projectId)}>
                         <CardActionArea>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h2">
@@ -50,6 +58,8 @@ class Dashboard extends Component {
                         </CardActionArea>
                     </Card>
                 )}
+                {this.state.component}
+                
             </div>
         )
     }
