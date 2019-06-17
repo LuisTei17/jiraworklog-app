@@ -13,6 +13,16 @@ class LoginService {
             }
 
         }
+
+        this.checkAuth = async () => {
+            try {
+                const requestData = await this.httpService.get('auth/', true);
+                return requestData;
+            } catch (error) {
+                throw error;
+            }
+
+        }
     }
 }
 
