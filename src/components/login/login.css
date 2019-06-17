@@ -1,0 +1,20 @@
+.form-login {
+    background-color: #cecece;
+    border-radius: 5%;
+    padding: 30px;
+    width: 30%;
+    height: 400px;
+    margin: auto;
+    position: relative;
+    top: 40px;
+}
+
+.form-field {
+    float: left;
+    clear: both;
+    width: 100%;
+}
+
+.form-button {
+    top: 40px;
+}
