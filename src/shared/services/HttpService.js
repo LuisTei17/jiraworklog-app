@@ -3,14 +3,16 @@ const jira = require('../../conf/jira.json'),
 
 class HttpService {
     constructor() {
-        this.post = (path, data, notGuarded) => {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
             }
+        }
+
+        this.post = (path, data, notGuarded) => {
+            
             if (!notGuarded)
-                config.headers.cookie = localStorage.getItem('cookie');
+                path += '?cookie=' + localStorage.getItem('cookie');
 
             return new Promise( async (resolve, reject) => {
                 try {
@@ -22,6 +24,22 @@ class HttpService {
                 }
             }); 
         };
+
+        this.get = (path, notGuarded) => {
+            
+            if (!notGuarded)
+                path += '?cookie=' + localStorage.getItem('cookie');
+
+            return new Promise( async (resolve, reject) => {
+                try {
+                    const response = await axios.get(jira.base_url + path, config);
+
+                    resolve(response.data);
+                } catch (error) {
+                    reject(error);
+                }
+            }); 
+        }
     };
 };
 export default HttpService;
