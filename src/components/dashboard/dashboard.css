@@ -1,0 +1,9 @@
+.project {
+    width: 200px;
+    margin: 20px;
+    display: inline-block;
+}
+
+.title {
+    color: #f8f8f8;
+}

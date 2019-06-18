@@ -1,16 +1,20 @@
+import { Redirect } from 'react-router-dom';
+
 const jira = require('../../conf/jira.json'),
     axios = require('axios');
 
 class HttpService {
     constructor() {
-        this.post = (path, data, notGuarded) => {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
             }
+        }
+
+        this.post = (path, data, notGuarded) => {
+            
             if (!notGuarded)
-                config.headers.cookie = localStorage.getItem('cookie');
+                path += '?cookie=' + localStorage.getItem('cookie');
 
             return new Promise( async (resolve, reject) => {
                 try {
@@ -24,13 +28,9 @@ class HttpService {
         };
 
         this.get = (path, notGuarded) => {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
+            
             if (!notGuarded)
-                config.headers.cookie = localStorage.getItem('cookie');
+                path += '?cookie=' + localStorage.getItem('cookie');
 
             return new Promise( async (resolve, reject) => {
                 try {
