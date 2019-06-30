@@ -1,6 +1,6 @@
 .workLogForm {
     margin: auto;
-    height: 430px;
+    height: 480px;
     width: 70%;
     border-radius: 3%;
     margin-top: 30px;
@@ -15,7 +15,7 @@
 .radio {
     display: inline-block !important;
     position: relative;
-    right: 15%; 
+    right: 10%; 
     top: 50px;
 }
 
@@ -28,6 +28,7 @@
 .sent-button {
     position: relative;
     top: 80px;
-    width: 100%;
+    padding: 20px; 
+    width: 15%;
 
 }

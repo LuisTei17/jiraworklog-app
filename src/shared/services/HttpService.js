@@ -22,6 +22,7 @@ class HttpService {
 
                     resolve(response.data);
                 } catch (error) {
+                    localStorage.removeItem('cookie');
                     reject(error);
                 }
             }); 
@@ -38,6 +39,7 @@ class HttpService {
 
                     resolve(response.data);
                 } catch (error) {
+                    localStorage.removeItem('cookie');
                     reject(error);
                 }
             }); 

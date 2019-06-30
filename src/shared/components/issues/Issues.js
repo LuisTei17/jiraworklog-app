@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import WorkLogForm from '../workLogForm/WorkLogForm';
 import './issues.css';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Snackbar from '@material-ui/core/Snackbar';
 
 class Issues extends Component {
 
@@ -21,6 +23,8 @@ class Issues extends Component {
             issueId: null
         }
 
+        this.close = this.close.bind(this);
+
     }
 
     componentWillReceiveProps (props) {
@@ -31,9 +35,31 @@ class Issues extends Component {
         this.setState({open: true, issueId: issueId});
     }
 
+    close (sucess) {
+        this.setState({open: false, sucess: sucess});
+    }
+
     render () {
         return (
             <div>
+                 <Snackbar
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                    }}
+                    open={this.state.success}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                >
+                    <SnackbarContent
+                        aria-describedby="client-snackbar"
+                        message={
+                            <span>
+                                Horas cadastradas
+                            </span>
+                        }
+                    />
+                </Snackbar>
                 <Typography className="title" gutterBottom variant="h2" component="h2">Issues</Typography>
                 {this.state.issues.map(issue =>   
                     <Card className="issue" key={issue.issue_id} onClick={() => this.open(issue.issue_id)}>
@@ -47,7 +73,7 @@ class Issues extends Component {
                     </Card>
                 )}
                 <Modal open={this.state.open}>
-                    <WorkLogForm issueId={this.state.issueId} />
+                    <WorkLogForm close={this.close} issueId={this.state.issueId} />
                 </Modal>
             </div>
 
