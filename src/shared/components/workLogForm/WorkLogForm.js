@@ -7,7 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import moment from 'moment';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Snackbar from '@material-ui/core/Snackbar';
 
 class Issues extends Component {
 
@@ -29,7 +30,10 @@ class Issues extends Component {
                 '[TESTE]',
                 '[REUNIAO]'
             ],
-            type: null
+            type: null,
+            close: props.close,
+            error: false,
+            success: false
         }
 
         this.startCronometer = this.startCronometer.bind(this);
@@ -111,12 +115,36 @@ class Issues extends Component {
             'comment' : this.state.comment
         };
 
-        await this.jiraService.logHours(data, this.state.issueId);
+        try {
+            await this.jiraService.logHours(data, this.state.issueId);
+            this.state.close(true);
+        } catch {
+            this.setState({error: true})
+        }
+
     }
 
     render () {
         return (
             <div className="workLogForm">
+                 <Snackbar
+                    anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                    }}
+                    open={this.state.error}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                >
+                    <SnackbarContent
+                        aria-describedby="client-snackbar"
+                        message={
+                            <span>
+                                Horas não cadastradas
+                            </span>
+                        }
+                    />
+                </Snackbar>
                 <Typography className="title-worklog" gutterBottom variant="h3" component="h2">Worklog</Typography>
                 <h1>{this.state.currentTimer}</h1>
                 {this.cronometerShow()}
@@ -140,6 +168,7 @@ class Issues extends Component {
                     rows="4"
                     onChange={this.handleClick}
                 />
+                <Button className="sent-button" variant="contained" color="secondary" onClick={this.state.close}>Fechar</Button>
                 <Button className="sent-button" variant="contained" color="primary" onClick={this.logHour}>
                     Enviar
                 </Button>

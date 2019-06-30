@@ -5,13 +5,13 @@ import './login.css';
 import LoginService from '../../shared/services/LoginService';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Snackbar from '@material-ui/core/Snackbar';
-
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
     constructor (props) {
         super(props)
 
-        this.state = {logged: false, username: '', password: '', open: false};
+        this.state = {logged: false, username: '', password: '', open: false, redirect: null};
 
         this.loginService = new LoginService();
 
@@ -36,6 +36,7 @@ class Login extends Component {
             };
 
             await this.loginService.login(data);
+            this.setState({redirect: <Redirect to="/dashboard" />})
         } catch (err) {
             this.setState({open: true});
         }
@@ -45,6 +46,7 @@ class Login extends Component {
     render() {
         return (
             <div className="loginPage">
+                {this.state.redirect}
                 <Snackbar
                     anchorOrigin={{
                     vertical: 'bottom',
