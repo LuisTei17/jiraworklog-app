@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <Router>
           <PrivateRoute path="/dashboard" component={Dashboard} />
-          <Route path="/login" component={Login} />
+          <Route path="/" component={Login} />
       </Router>
     </div>
   );

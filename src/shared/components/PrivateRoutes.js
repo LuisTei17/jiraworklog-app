@@ -21,7 +21,7 @@ class PrivateRoute extends Component {
             
             return <RouteComponent />;
         } catch (error) {
-            return <Redirect to="/login" />
+            return <Redirect to="/" />
         }
     }
 
